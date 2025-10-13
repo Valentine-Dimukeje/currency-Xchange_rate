@@ -7,6 +7,18 @@
 <!-- debug-only: loads Tailwind from CDN to prove your classes are correct -->
 <script src="https://cdn.tailwindcss.com"></script>
 
+<script>
+  (() => {
+    const stored = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (stored === "dark" || (!stored && prefersDark)) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  })();
+</script>
+
 
   </head>
   <body>
