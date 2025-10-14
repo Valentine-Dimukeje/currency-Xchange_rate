@@ -1,38 +1,36 @@
-// src/context/ThemeContext.jsx
 import React, { createContext, useEffect, useState } from "react";
 
 export const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("light"); // Default to light
+  const [isMounted, setIsMounted] = useState(false); // Prevent flicker on hydration
 
-  // Load theme from localStorage or system preference
   useEffect(() => {
+    // Check saved theme in localStorage
     const storedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
-      setTheme("dark");
-      document.documentElement.classList.add("dark");
+    if (storedTheme === "dark" || storedTheme === "light") {
+      setTheme(storedTheme);
+      document.documentElement.classList.toggle("dark", storedTheme === "dark");
     } else {
-      setTheme("light");
+      // Default light mode on first visit
       document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
+    setIsMounted(true);
   }, []);
 
-  // Apply class and persist theme when user toggles
-  useEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+    setTheme((prev) => {
+      const next = prev === "light" ? "dark" : "light";
+      localStorage.setItem("theme", next);
+      document.documentElement.classList.toggle("dark", next === "dark");
+      return next;
+    });
   };
+
+  // Avoid rendering children until theme is set
+  if (!isMounted) return null;
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
