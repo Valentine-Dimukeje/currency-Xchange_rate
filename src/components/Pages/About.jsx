@@ -2,36 +2,24 @@ import React from "react";
 
 export default function About() {
   return (
-    <div className="max-w-3xl mx-auto p-6 md:p-10 text-gray-700 dark:text-gray-200 space-y-6">
+    <div className="max-w-3xl mx-auto p-6 md:p-10 bg-white text-gray-800 rounded-lg shadow-sm">
+      <h2 className="text-3xl font-bold text-blue-700 mb-4">About Currency Xchange</h2>
 
-      <h2 className="text-3xl font-bold text-blue-700 mb-4 text-center md:text-left">
-        About <span className="text-gray-900">Currency Xchange</span>
-      </h2>
-
-      <p className="leading-relaxed">
-        <strong>Currency Xchange</strong> is a modern and responsive web platform
-        designed to provide real-time and historical foreign exchange rates. It helps
-        individuals, travelers, and businesses make smarter financial decisions when
-        dealing with international currencies.
+      <p className="mb-4 leading-relaxed">
+        Currency Xchange is a lightweight, reliable platform that delivers real-time foreign exchange rates,
+        quick conversion tools, and historical trend visualizations. It is built for everyday users, travellers,
+        and businesses who need fast, accurate currency information.
       </p>
 
-      <p className="leading-relaxed">
-        Our system aggregates data from multiple trusted sources and APIs to ensure
-        accuracy, reliability, and global coverage. Users can visualize trends,
-        compare rates, and track currency movements easily through interactive charts
-        and tools.
+      <p className="mb-4 leading-relaxed">
+        We aggregate data from trusted APIs, merge with sensible fallbacks, and present information with clear UX and excellent mobile support.
       </p>
 
-      <div className="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-md">
-        <p className="text-sm md:text-base text-gray-800">
-          💡 <strong>Our mission:</strong> Empower users with transparent and up-to-date
-          currency insights to support travel, trade, and investment decisions globally.
-        </p>
+      <div className="p-4 bg-blue-50 border-l-4 border-blue-600 rounded-md">
+        <strong>Our mission:</strong> Empower people with timely and trustworthy currency insights so they can make better financial decisions.
       </div>
 
-      <p className="text-sm text-gray-500 text-center md:text-left">
-        © {new Date().getFullYear()} Currency Xchange. All rights reserved.
-      </p>
+      <p className="mt-6 text-sm text-gray-500">© {new Date().getFullYear()} Currency Xchange. All rights reserved.</p>
     </div>
   );
 }

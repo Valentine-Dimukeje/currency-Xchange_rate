@@ -2,19 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Optional — global defaults for dark/light themes */
 html {
   scroll-behavior: smooth;
 }
 
 body {
   @apply bg-gray-50 text-gray-800 transition-colors duration-300;
-}
-
-.dark body {
-  @apply bg-gray-900 text-gray-100;
-}
-
-html {
-  transition: background-color 0.3s, color 0.3s;
 }

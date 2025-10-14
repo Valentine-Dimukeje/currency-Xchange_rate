@@ -2,85 +2,67 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  function onChange(e) {
+    setForm((s) => ({ ...s, [e.target.name]: e.target.value }));
+  }
 
-  const handleSubmit = (e) => {
+  function onSubmit(e) {
     e.preventDefault();
     setStatus("sending");
+    // TODO: integrate real API or email service
     setTimeout(() => {
       setStatus("sent");
-      setFormData({ name: "", email: "", message: "" });
-    }, 1200);
-  };
+      setForm({ name: "", email: "", message: "" });
+      setTimeout(() => setStatus(null), 2500);
+    }, 900);
+  }
 
   return (
-    <div className="max-w-md mx-auto bg-white dark:bg-gray-900 shadow-lg p-6 md:p-8 rounded-2xl border border-gray-100 dark:border-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-      <motion.h2
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-3xl font-bold text-blue-700 dark:text-blue-400 mb-6 text-center"
-      >
+    <div className="max-w-md mx-auto p-6 bg-white rounded-2xl shadow-sm">
+      <motion.h2 initial={{ y: -8, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="text-2xl font-bold text-blue-700 text-center mb-4">
         Contact Us
       </motion.h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={onSubmit} className="space-y-4">
         <input
-          type="text"
           name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Your Name"
+          value={form.name}
+          onChange={onChange}
           required
-          className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100"
+          placeholder="Your name"
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
         />
         <input
-          type="email"
           name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Your Email"
+          value={form.email}
+          onChange={onChange}
           required
-          className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100"
+          type="email"
+          placeholder="Your email"
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
         />
         <textarea
           name="message"
-          value={formData.message}
-          onChange={handleChange}
-          placeholder="Your Message"
+          value={form.message}
+          onChange={onChange}
           required
-          className="w-full border rounded-lg p-3 h-32 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100"
+          rows={5}
+          placeholder="Message"
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
         />
-        <motion.button
-          whileTap={{ scale: 0.95 }}
+        <button
           type="submit"
           disabled={status === "sending"}
-          className={`w-full py-3 rounded-lg text-white font-medium transition-all ${
-            status === "sending"
-              ? "bg-blue-400 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
-          }`}
+          className="w-full py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition"
         >
-          {status === "sending"
-            ? "Sending..."
-            : status === "sent"
-            ? "Message Sent ✅"
-            : "Send Message"}
-        </motion.button>
+          {status === "sending" ? "Sending..." : status === "sent" ? "Message Sent ✅" : "Send Message"}
+        </button>
       </form>
 
-      <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
-        We’ll get back to you within 24 hours.
-      </p>
+      <p className="mt-4 text-sm text-gray-500 text-center">We aim to reply within 24 hours.</p>
     </div>
   );
 }
