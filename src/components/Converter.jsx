@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Select from "react-select";
 import Flag from "./Flag";
 import currencyData from "../currencies.json";
+import API_BASE from "../config";
 
 const selectCustomStyles = {
   control: (base) => ({
@@ -35,7 +36,7 @@ export default function Converter() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/rates/?base=USD");
+        const res = await fetch(`${API_BASE}/api/rates/?base=USD`);
         const data = await res.json();
         if (data?.rates) setCurrencies(Object.keys(data.rates));
       } catch {
@@ -65,7 +66,7 @@ export default function Converter() {
     setResult(null);
     try {
       const res = await fetch(
-        `http://127.0.0.1:8000/api/convert/?from=${from}&to=${to}&amount=${amount}`
+        `${API_BASE}/convert/?from=${from}&to=${to}&amount=${amount}`
       );
       const data = await res.json();
       if (data.error) setError(data.error);
@@ -92,12 +93,12 @@ export default function Converter() {
         <p className="text-slate-500 text-sm mt-1">Instant, accurate conversions</p>
       </div>
 
-      <div className="space-y-6 text-slate-800 dark:text-gray-100">
+      <div className="space-y-6 text-slate-800">
         <input
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="p-3 rounded-xl border border-slate-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+          className="p-3 rounded-xl border border-slate-300"
           min="0"
           aria-label="amount"
         />

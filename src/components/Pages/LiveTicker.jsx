@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import API_BASE from "../../config"; // adjust path as needed
+
 
 export default function LiveTicker() {
   const [rates, setRates] = useState([]);
@@ -8,11 +10,11 @@ export default function LiveTicker() {
   async function fetchTicker() {
     try {
       setLoading(true);
-      const res = await fetch("http://127.0.0.1:8000/api/rates/?base=USD");
+      const res = await fetch(`${API_BASE}/api/rates/?base=USD`);
       const json = await res.json();
       if (json?.rates) {
         const list = Object.entries(json.rates)
-          .slice(0, 10) // show top 10 currencies
+          .slice(0, 10)
           .map(([code, rate]) => ({ code, rate }));
         setRates(list);
       }
@@ -25,7 +27,7 @@ export default function LiveTicker() {
 
   useEffect(() => {
     fetchTicker();
-    const interval = setInterval(fetchTicker, 1000 * 60 * 5); // every 5 minutes
+    const interval = setInterval(fetchTicker, 1000 * 60 * 5);
     return () => clearInterval(interval);
   }, []);
 
