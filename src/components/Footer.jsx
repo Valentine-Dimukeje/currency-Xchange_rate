@@ -1,6 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaFacebook, FaInstagram, FaTiktok, FaXTwitter, FaLinkedin, FaGithub } from "react-icons/fa6"; // using fa6 for new X icon
+import {
+  FaFacebook,
+  FaInstagram,
+  FaTiktok,
+  FaXTwitter,
+  FaLinkedin,
+  FaGithub,
+} from "react-icons/fa6"; // using fa6 for new X icon
 
 export default function Footer() {
   return (
@@ -35,9 +42,8 @@ export default function Footer() {
         <div className="text-sm">
           <h4 className="text-white font-medium mb-2">Connect</h4>
           <div className="flex gap-4 text-lg">
-            {/* Replace the # with your real social media links */}
             <a
-              href="https://www.facebook.com/YOUR_FACEBOOK_USERNAME"
+              href="https://www.facebook.com/DimukejeValentine"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-blue-500 transition"
@@ -46,7 +52,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://www.instagram.com/YOUR_INSTAGRAM_USERNAME"
+              href="https://www.instagram.com/val_ukeje"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-pink-500 transition"
@@ -55,7 +61,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://www.tiktok.com/@YOUR_TIKTOK_USERNAME"
+              href="https://www.tiktok.com/@dimukeje.jnr"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-gray-200 transition"
@@ -64,7 +70,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://x.com/YOUR_X_USERNAME"
+              href="https://x.com/Dimukeje-jnr"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-blue-400 transition"
@@ -73,7 +79,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://www.linkedin.com/in/YOUR_LINKEDIN_USERNAME"
+              href="https://www.linkedin.com/in/dimukeje-valentine"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-blue-400 transition"
@@ -82,7 +88,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://github.com/YOUR_GITHUB_USERNAME"
+              href="https://github.com/Valentine-Dimukeje"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-gray-400 transition"
