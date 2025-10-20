@@ -6,109 +6,105 @@ import LiveTicker from "./LiveTicker";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center px-4 sm:px-6 lg:px-8 py-10 md:py-16 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-      
+    <div className="flex flex-col items-center px-4 sm:px-6 md:px-8 py-10 bg-slate-50 text-slate-900">
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center w-full max-w-3xl space-y-4 mb-10"
+        className="text-center max-w-2xl mb-10 md:mb-16"
       >
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 dark:text-white">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
           💱 Currency Xchange
         </h1>
-        <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300">
-          Track live exchange rates, compare currencies, and explore trends — all in one place.
+        <p className="mt-3 text-base sm:text-lg text-slate-600">
+          Track live exchange rates, convert currencies, and explore insights — all in one place.
         </p>
       </motion.div>
 
-      {/* Converter + Rates Grid */}
+      {/* Converter + Rates */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.3, duration: 0.8 }}
+        transition={{ delay: 0.2, duration: 0.8 }}
         className="grid w-full max-w-6xl gap-6 sm:gap-8 md:grid-cols-2"
       >
         {/* Converter Card */}
-        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-5 sm:p-6 hover:shadow-xl transition border border-gray-100 dark:border-gray-800 flex flex-col justify-between">
+        <div className="bg-white rounded-2xl shadow-md hover:shadow-lg p-5 sm:p-6 transition-all border border-slate-200">
           <Converter />
-          <div className="mt-4">
-            <LiveTicker />
+          <div className="mt-6 border-t border-slate-100 pt-4">
+            {/* <LiveTicker /> */}
           </div>
         </div>
 
-        {/* Rate Table Card */}
-        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-5 sm:p-6 hover:shadow-xl transition border border-gray-100 dark:border-gray-800">
+        {/* Rates Card */}
+        <div className="bg-white rounded-2xl shadow-md hover:shadow-lg p-5 sm:p-6 transition-all border border-slate-200 overflow-hidden">
           <RateTable />
         </div>
       </motion.div>
 
-      {/* Features Section */}
+      {/* Features */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-        className="max-w-6xl w-full text-center mt-16 sm:mt-20 space-y-10 px-2"
+        transition={{ duration: 0.6 }}
+        className="max-w-6xl w-full text-center mt-16 md:mt-20 px-2"
       >
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 dark:text-white">
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-8">
           Why Choose Currency Xchange?
         </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             {
               icon: "🌐",
               title: "Real-Time Accuracy",
-              desc: "Get instant updates powered by trusted global data sources and APIs.",
-              color: "text-blue-600 dark:text-blue-400",
+              desc: "Get instant updates from trusted global financial sources.",
+              color: "text-blue-600",
             },
             {
               icon: "📊",
-              title: "Powerful Analytics",
-              desc: "View historical charts, track currency trends, and make smarter conversions.",
-              color: "text-green-600 dark:text-green-400",
+              title: "Data Insights",
+              desc: "View live rates, analyze trends, and make smarter conversions.",
+              color: "text-cyan-600",
             },
             {
               icon: "📱",
-              title: "Fully Responsive",
-              desc: "Seamlessly optimized for mobile, tablet, and desktop users.",
-              color: "text-purple-600 dark:text-purple-400",
+              title: "Mobile-Ready",
+              desc: "Beautiful and fully responsive design for all devices.",
+              color: "text-indigo-600",
             },
-          ].map((feature, idx) => (
+          ].map((f, i) => (
             <div
-              key={idx}
-              className="p-5 sm:p-6 border rounded-2xl hover:shadow-lg transition bg-gray-50 dark:bg-gray-900/40 border-gray-200 dark:border-gray-800"
+              key={i}
+              className="p-6 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all text-left sm:text-center"
             >
-              <h3 className={`font-semibold mb-2 text-lg ${feature.color}`}>
-                {feature.icon} {feature.title}
+              <h3 className={`font-semibold text-lg mb-2 ${f.color}`}>
+                {f.icon} {f.title}
               </h3>
-              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-                {feature.desc}
-              </p>
+              <p className="text-slate-600 text-sm leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>
       </motion.section>
 
-      {/* CTA Section */}
+      {/* CTA */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="mt-16 sm:mt-20 w-full max-w-4xl bg-gradient-to-r from-blue-600 to-blue-500 dark:from-blue-700 dark:to-blue-600 text-white rounded-3xl shadow-xl p-8 sm:p-10 text-center"
+        className="mt-16 md:mt-20 w-full max-w-4xl text-center bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-3xl shadow-lg p-8 sm:p-10"
       >
-        <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-4">
-          Stay Ahead of Currency Trends
+        <h3 className="text-2xl sm:text-3xl font-semibold mb-3">
+          Stay Ahead of Global Trends
         </h3>
         <p className="text-white/90 text-sm sm:text-base mb-6">
-          Join thousands of users checking real-time rates and insights every day.
+          Join thousands using real-time exchange insights every day.
         </p>
         <a
           href="/trends"
-          className="inline-block bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-100 transition"
+          className="inline-block bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg hover:bg-blue-50 transition"
         >
           Explore Live Trends →
         </a>

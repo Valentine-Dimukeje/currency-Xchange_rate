@@ -7,14 +7,14 @@ import API_BASE from "../config";
 const selectCustomStyles = {
   control: (base) => ({
     ...base,
-    minHeight: 44,
+    minHeight: 46,
     borderRadius: 12,
     borderColor: "#cbd5e1",
     backgroundColor: "white",
     boxShadow: "none",
     "&:hover": { borderColor: "#3b82f6" },
   }),
-  singleValue: (base) => ({ ...base, color: "#0f172a" }),
+  singleValue: (base) => ({ ...base, color: "#0f172a", fontWeight: 500 }),
   menu: (base) => ({ ...base, background: "white", borderRadius: 8 }),
   option: (base, state) => ({
     ...base,
@@ -87,35 +87,49 @@ export default function Converter() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full overflow-hidden">
+
       <div>
-        <h2 className="text-2xl font-semibold text-slate-800">Currency Converter</h2>
-        <p className="text-slate-500 text-sm mt-1">Instant, accurate conversions</p>
+        <h2 className="text-2xl font-semibold text-slate-800">
+          Currency Converter
+        </h2>
+        <p className="text-slate-500 text-sm mt-1">
+          Quick, accurate and up-to-date conversions.
+        </p>
       </div>
 
-      <div className="space-y-6 text-slate-800">
+      <div className="space-y-5">
         <input
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="p-3 rounded-xl border border-slate-300"
+          className="p-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 w-full transition"
           min="0"
           aria-label="amount"
         />
-        <Select
-          styles={selectCustomStyles}
-          options={options}
-          value={options.find((o) => o.value === from)}
-          onChange={(s) => setFrom(s.value)}
-          placeholder="From"
-        />
-        <Select
-          styles={selectCustomStyles}
-          options={options}
-          value={options.find((o) => o.value === to)}
-          onChange={(s) => setTo(s.value)}
-          placeholder="To"
-        />
+
+        <div className="space-y-4 text-slate-800">
+  <div className="w-full">
+    <Select
+      styles={selectCustomStyles}
+      options={options}
+      value={options.find((o) => o.value === from)}
+      onChange={(s) => setFrom(s.value)}
+      placeholder="From"
+    />
+  </div>
+
+  <div className="w-full">
+    <Select
+      styles={selectCustomStyles}
+      options={options}
+      value={options.find((o) => o.value === to)}
+      onChange={(s) => setTo(s.value)}
+      placeholder="To"
+    />
+  </div>
+</div>
+
       </div>
 
       <div className="flex flex-wrap gap-3 items-center justify-between">
@@ -139,7 +153,10 @@ export default function Converter() {
       {result !== null && !error && (
         <div className="mt-4 p-4 rounded-xl bg-blue-50 border border-blue-100 text-slate-800 text-lg text-center">
           <strong>{amount}</strong> {from} ={" "}
-          <strong className="text-blue-600">{Number(result).toFixed(4)}</strong> {to}
+          <strong className="text-blue-600">
+            {Number(result).toFixed(4)}
+          </strong>{" "}
+          {to}
         </div>
       )}
     </div>

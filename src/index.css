@@ -9,3 +9,12 @@ html {
 body {
   @apply bg-gray-50 text-gray-800 transition-colors duration-300;
 }
+
+/* Prevent layout jumps when API data loads */
+html, body {
+  overflow-x: hidden;
+}
+
+table {
+  table-layout: fixed;
+}
