@@ -33,14 +33,20 @@ export default function Converter() {
   const [currencies, setCurrencies] = useState([]);
   const [error, setError] = useState(null);
 
+  // ✅ Fetch all available rates
   useEffect(() => {
     async function load() {
       try {
         const res = await fetch(`${API_BASE}/api/rates/?base=USD`);
+        if (!res.ok) throw new Error("API not reachable");
         const data = await res.json();
         if (data?.rates) setCurrencies(Object.keys(data.rates));
-      } catch {
+        else throw new Error("No rates found");
+      } catch (err) {
+        console.error("Currency load failed:", err);
         setError("Failed to load currency list.");
+        // fallback to most common ones
+        setCurrencies(["USD", "EUR", "GBP", "NGN", "JPY", "INR"]);
       }
     }
     load();
@@ -60,35 +66,42 @@ export default function Converter() {
     [currencies]
   );
 
+  // ✅ Convert currencies using backend API
   async function convert() {
+    if (!from || !to || !amount) {
+      setError("Please fill all fields.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setResult(null);
+
     try {
       const res = await fetch(
-        `${API_BASE}/convert/?from=${from}&to=${to}&amount=${amount}`
+        `${API_BASE}/api/convert/?from=${from}&to=${to}&amount=${amount}`
       );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       if (data.error) setError(data.error);
       else setResult(data.result);
-    } catch {
-      setError("Network error during conversion.");
+    } catch (err) {
+      console.error("Conversion failed:", err);
+      setError("Network or server error during conversion.");
     } finally {
       setLoading(false);
     }
   }
 
+  // ✅ Swap base and target
   function swap() {
-    setFrom((prev) => {
-      setTo(prev);
-      return to;
-    });
+    setFrom(to);
+    setTo(from);
     setResult(null);
   }
 
   return (
     <div className="space-y-6 w-full overflow-hidden">
-
       <div>
         <h2 className="text-2xl font-semibold text-slate-800">
           Currency Converter
@@ -109,27 +122,22 @@ export default function Converter() {
         />
 
         <div className="space-y-4 text-slate-800">
-  <div className="w-full">
-    <Select
-      styles={selectCustomStyles}
-      options={options}
-      value={options.find((o) => o.value === from)}
-      onChange={(s) => setFrom(s.value)}
-      placeholder="From"
-    />
-  </div>
+          <Select
+            styles={selectCustomStyles}
+            options={options}
+            value={options.find((o) => o.value === from)}
+            onChange={(s) => setFrom(s.value)}
+            placeholder="From"
+          />
 
-  <div className="w-full">
-    <Select
-      styles={selectCustomStyles}
-      options={options}
-      value={options.find((o) => o.value === to)}
-      onChange={(s) => setTo(s.value)}
-      placeholder="To"
-    />
-  </div>
-</div>
-
+          <Select
+            styles={selectCustomStyles}
+            options={options}
+            value={options.find((o) => o.value === to)}
+            onChange={(s) => setTo(s.value)}
+            placeholder="To"
+          />
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-3 items-center justify-between">

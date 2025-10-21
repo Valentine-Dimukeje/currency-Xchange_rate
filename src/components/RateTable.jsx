@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { ArrowUpRight, ArrowDownRight, RefreshCcw } from "lucide-react";
+import { RefreshCcw } from "lucide-react";
 import API_BASE from "../config";
 
 export default function RateTable() {
@@ -15,9 +15,10 @@ export default function RateTable() {
     setError(null);
     try {
       const res = await axios.get(`${API_BASE}/api/rates/?base=${base}`);
-      setRates(res.data.rates);
+      setRates(res.data.rates || {});
       setLastUpdated(new Date().toLocaleTimeString());
-    } catch {
+    } catch (err) {
+      console.error("Fetch rates failed:", err);
       setError("Failed to fetch exchange rates. Please try again.");
     } finally {
       setLoading(false);
@@ -50,23 +51,7 @@ export default function RateTable() {
           className="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
         >
           {["USD", "EUR", "GBP", "NGN", "GHS", "ZAR", "JPY", "INR"].map((code) => (
-            <option key={code} value={code}>
-              {code} — {code === "USD"
-                ? "US Dollar"
-                : code === "EUR"
-                ? "Euro"
-                : code === "GBP"
-                ? "British Pound"
-                : code === "NGN"
-                ? "Nigerian Naira"
-                : code === "GHS"
-                ? "Ghanaian Cedi"
-                : code === "ZAR"
-                ? "South African Rand"
-                : code === "JPY"
-                ? "Japanese Yen"
-                : "Indian Rupee"}
-            </option>
+            <option key={code} value={code}>{code}</option>
           ))}
         </select>
       </div>
@@ -78,44 +63,44 @@ export default function RateTable() {
       )}
 
       {loading ? (
-  <p className="text-gray-500 text-center py-6 animate-pulse">
-    Loading latest rates...
-  </p>
-) : (
-  <div className="overflow-x-auto rounded-xl border border-slate-100">
-    <table className="w-full min-w-[350px] text-sm text-gray-700 border-collapse">
-      <thead className="bg-slate-50">
-        <tr className="border-b border-slate-200">
-          <th className="py-2 px-3 text-left">Currency</th>
-          <th className="py-2 px-3 text-right">Rate</th>
-        </tr>
-      </thead>
-      <tbody>
-        {Object.entries(rates)
-          .filter(([key]) => key !== base)
-          .slice(0, 15)
-          .map(([code, rate]) => (
-            <tr
-              key={code}
-              className="border-b border-slate-100 hover:bg-blue-50 transition"
-            >
-              <td className="py-2 px-3 font-medium text-slate-800 flex items-center gap-1 whitespace-nowrap">
-                {rate > 1 ? (
-                  <span className="text-green-500">▲</span>
-                ) : (
-                  <span className="text-red-500">▼</span>
-                )}
-                {code}
-              </td>
-              <td className="py-2 px-3 text-right font-semibold">
-                {rate.toFixed(2)}
-              </td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
-  </div>
-)}
+        <p className="text-gray-500 text-center py-6 animate-pulse">
+          Loading latest rates...
+        </p>
+      ) : (
+        <div className="overflow-x-auto rounded-xl border border-slate-100">
+          <table className="w-full min-w-[350px] text-sm text-gray-700 border-collapse">
+            <thead className="bg-slate-50">
+              <tr className="border-b border-slate-200">
+                <th className="py-2 px-3 text-left">Currency</th>
+                <th className="py-2 px-3 text-right">Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(rates)
+                .filter(([key]) => key !== base)
+                .slice(0, 15)
+                .map(([code, rate]) => (
+                  <tr
+                    key={code}
+                    className="border-b border-slate-100 hover:bg-blue-50 transition"
+                  >
+                    <td className="py-2 px-3 font-medium text-slate-800 flex items-center gap-1 whitespace-nowrap">
+                      {rate > 1 ? (
+                        <span className="text-green-500">▲</span>
+                      ) : (
+                        <span className="text-red-500">▼</span>
+                      )}
+                      {code}
+                    </td>
+                    <td className="py-2 px-3 text-right font-semibold">
+                      {rate.toFixed(2)}
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {!loading && (
         <div className="text-xs text-slate-500 text-right mt-4">
